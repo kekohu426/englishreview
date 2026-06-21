@@ -5,9 +5,16 @@ export function parseRequirements(inputText = '', context = {}) {
   const raw = String(inputText || '');
   const text = raw.toLowerCase();
   const sourceRouting = routeHomeworkSources(raw, [...SOURCE_REGISTRY, ...getCustomSourceDefinitions()], context);
-  const requestedUnits = sourceRouting.opw2_units;
+  const routedTextbookScopes = Object.entries(sourceRouting.source_scopes || {})
+    .filter(([sourceId]) => sourceId !== 'oxford_phonics' && sourceId !== 'general_instruction')
+    .map(([, scope]) => scope);
+  const requestedUnits = unique([
+    ...sourceRouting.opw2_units,
+    ...routedTextbookScopes.flatMap(scope => scope.units || []),
+  ]).sort((a, b) => a - b);
   const requestedPages = unique([
     ...sourceRouting.opw2_pages,
+    ...routedTextbookScopes.flatMap(scope => scope.pages || []),
     ...parsePagesFromText(raw),
   ]);
   const requestedPatterns = [];

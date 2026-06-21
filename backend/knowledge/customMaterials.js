@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { convertPdfToMaterialIndex } from './materialPdfPipeline.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const MATERIAL_DIR = join(__dirname, '../../.ai/materials');
@@ -55,11 +56,52 @@ export function saveCustomMaterial({ label, aliases = [], filename = 'material.m
   return material;
 }
 
+export function saveCustomMaterialFromPdf({ label, aliases = [], filename = 'material.pdf', pdfBase64 = '' }) {
+  ensureMaterialDir();
+  const cleanLabel = String(label || '').trim();
+  if (!cleanLabel) throw new Error('Material label is required.');
+  const pdfBuffer = decodePdfBase64(pdfBase64);
+  if (!pdfBuffer.length) throw new Error('PDF content is required.');
+
+  const registry = readRegistry();
+  const id = uniqueId(`custom_${slug(cleanLabel)}`, registry);
+  const normalizedAliases = unique([cleanLabel, ...aliases.map(String).map(item => item.trim()).filter(Boolean)]);
+  const conversion = convertPdfToMaterialIndex({
+    materialDir: MATERIAL_DIR,
+    id,
+    label: cleanLabel,
+    originalFilename: path.basename(filename || 'material.pdf'),
+    pdfBuffer,
+  });
+  const material = {
+    id,
+    label: cleanLabel,
+    aliases: normalizedAliases,
+    original_filename: path.basename(filename || 'material.pdf'),
+    filename: path.basename(conversion.sourcePdfPath),
+    path: conversion.allPagesPath,
+    root_path: conversion.materialRoot,
+    source_pdf: conversion.sourcePdfPath,
+    pages_dir: conversion.pagesDir,
+    index_path: conversion.indexPath,
+    type: 'textbook',
+    source_type: 'pdf',
+    page_count: conversion.pageCount,
+    rendered_images: conversion.renderedImages,
+    created_at: new Date().toISOString(),
+  };
+  writeRegistry([material, ...registry]);
+  return { material, conversion };
+}
+
 export function deleteCustomMaterial(id) {
   ensureMaterialDir();
   const registry = readRegistry();
   const material = registry.find(item => item.id === id);
   if (material?.path && fs.existsSync(material.path)) fs.unlinkSync(material.path);
+  if (material?.root_path && fs.existsSync(material.root_path)) {
+    fs.rmSync(material.root_path, { recursive: true, force: true });
+  }
   writeRegistry(registry.filter(item => item.id !== id));
 }
 
@@ -70,10 +112,11 @@ export function buildCustomMaterialScope(sourceScopes = {}) {
   materials.forEach(material => {
     const routeScope = sourceScopes[material.id];
     if (!routeScope) return;
-    const content = readMaterialContent(material);
-    const scopedText = filterMarkdownByUnits(content, routeScope.units);
-    const words = extractWords(scopedText);
-    const sentences = extractSentences(scopedText);
+    const indexedScope = buildIndexedMaterialScope(material, routeScope);
+    const content = indexedScope ? indexedScope.text : readMaterialContent(material);
+    const scopedText = indexedScope ? indexedScope.text : filterMarkdownByUnits(content, routeScope.units);
+    const words = indexedScope ? indexedScope.words : extractWords(scopedText);
+    const sentences = indexedScope ? indexedScope.sentences : extractSentences(scopedText);
     active.push({
       id: material.id,
       label: material.label,
@@ -81,8 +124,9 @@ export function buildCustomMaterialScope(sourceScopes = {}) {
       pages: routeScope.pages || [],
       words,
       sentences,
-      source_refs: [`${material.id}:markdown`],
+      source_refs: indexedScope?.source_refs?.length ? indexedScope.source_refs : [`${material.id}:markdown`],
       text: scopedText.slice(0, 8000),
+      source_type: material.source_type || 'markdown',
     });
   });
 
@@ -96,9 +140,53 @@ export function buildCustomMaterialScope(sourceScopes = {}) {
 
 function readMaterialContent(material) {
   try {
-    return fs.readFileSync(material.path, 'utf8');
+    const file = material.path || material.all_pages_markdown;
+    return fs.readFileSync(file, 'utf8');
   } catch {
     return '';
+  }
+}
+
+function buildIndexedMaterialScope(material, routeScope = {}) {
+  const index = readMaterialIndex(material);
+  if (!index) return null;
+  const requestedUnits = routeScope.units || [];
+  const requestedPages = routeScope.pages || [];
+  const pages = Array.isArray(index.pages) ? index.pages : [];
+  let selectedPages = pages;
+  if (requestedPages.length) {
+    const pageSet = new Set(requestedPages.map(Number));
+    selectedPages = pages.filter(page => pageSet.has(Number(page.page)));
+  } else if (requestedUnits.length) {
+    const unitSet = new Set(requestedUnits.map(Number));
+    selectedPages = pages.filter(page => unitSet.has(Number(page.unit)));
+  }
+  if (!selectedPages.length && (requestedPages.length || requestedUnits.length)) selectedPages = pages;
+  const text = selectedPages.map(page => {
+    if (page.text_path && fs.existsSync(page.text_path)) {
+      try {
+        return fs.readFileSync(page.text_path, 'utf8');
+      } catch {
+        return page.text_preview || '';
+      }
+    }
+    return page.text_preview || '';
+  }).join('\n\n');
+  return {
+    words: unique(selectedPages.flatMap(page => page.words || [])),
+    sentences: unique(selectedPages.flatMap(page => page.sentence_patterns || [])),
+    source_refs: unique(selectedPages.flatMap(page => page.source_refs || [`${material.id}:page:${page.page}`])),
+    text,
+  };
+}
+
+function readMaterialIndex(material) {
+  if (!material?.index_path) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(material.index_path, 'utf8'));
+    return parsed && Array.isArray(parsed.pages) ? parsed : null;
+  } catch {
+    return null;
   }
 }
 
@@ -200,10 +288,16 @@ function unique(items = []) {
   return [...new Set(items.filter(item => item !== undefined && item !== null && item !== ''))];
 }
 
+function decodePdfBase64(value) {
+  const clean = String(value || '').replace(/^data:application\/pdf;base64,/i, '').trim();
+  return clean ? Buffer.from(clean, 'base64') : Buffer.alloc(0);
+}
+
 export default {
   listCustomMaterials,
   getCustomSourceDefinitions,
   saveCustomMaterial,
+  saveCustomMaterialFromPdf,
   deleteCustomMaterial,
   buildCustomMaterialScope,
 };

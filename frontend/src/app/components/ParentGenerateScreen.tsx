@@ -428,33 +428,44 @@ function MaterialUploadPanel({
 
   const handleFile = async (file?: File) => {
     if (!file || uploading) return;
-    if (!file.name.toLowerCase().endsWith(".md")) {
-      onStatus("请上传 Markdown 教材文件（.md）。");
+    const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+    const isMarkdown = file.name.toLowerCase().endsWith(".md") || /markdown|text\/plain/.test(file.type);
+    if (!isPdf && !isMarkdown) {
+      onStatus("请上传 PDF 或 Markdown 教材文件。");
       return;
     }
-    const materialLabel = label.trim() || file.name.replace(/\.md$/i, "");
+    const materialLabel = label.trim() || file.name.replace(/\.(md|pdf)$/i, "");
     const aliasList = aliases
       .split(/[,，、\n]+/)
       .map((item) => item.trim())
       .filter(Boolean);
 
     setUploading(true);
-    onStatus("正在上传教材...");
+    onStatus(isPdf ? "正在转换 PDF 为知识库，请稍等..." : "正在上传教材...");
     try {
-      const content = await file.text();
+      const body = isPdf
+        ? {
+            label: materialLabel,
+            aliases: aliasList,
+            filename: file.name,
+            content_type: file.type || "application/pdf",
+            pdf_base64: await fileToBase64(file),
+          }
+        : {
+            label: materialLabel,
+            aliases: aliasList,
+            filename: file.name,
+            content: await file.text(),
+          };
       const resp = await fetch("/api/materials/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          label: materialLabel,
-          aliases: aliasList,
-          filename: file.name,
-          content,
-        }),
+        body: JSON.stringify(body),
       });
       const data = await resp.json();
       if (!resp.ok || data.error) throw new Error(data.error || `Upload failed: ${resp.status}`);
-      onStatus(`已添加教材：${data.material.label}`);
+      const conversionText = data.conversion?.page_count ? `，已转换 ${data.conversion.page_count} 页` : "";
+      onStatus(`已添加教材：${data.material.label}${conversionText}`);
       onUploaded(data.material);
       setLabel("");
       setAliases("");
@@ -482,10 +493,10 @@ function MaterialUploadPanel({
         />
         <label className="border-[3px] border-[#213044] rounded-xl px-4 py-2.5 bg-[#fff1bf] text-[#213044] font-black shadow-[3px_3px_0_#213044] hover:-translate-y-0.5 transition-transform cursor-pointer text-sm inline-flex items-center justify-center gap-2">
           {uploading ? <Loader2 size={16} className="animate-spin" /> : <FileUp size={16} />}
-          {uploading ? "上传中..." : "选择 .md"}
+          {uploading ? "处理中..." : "选择 PDF / MD"}
           <input
             type="file"
-            accept=".md,text/markdown,text/plain"
+            accept=".pdf,.md,application/pdf,text/markdown,text/plain"
             disabled={uploading}
             onChange={(event) => handleFile(event.target.files?.[0])}
             className="hidden"
@@ -494,6 +505,18 @@ function MaterialUploadPanel({
       </div>
     </div>
   );
+}
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const value = String(reader.result || "");
+      resolve(value.includes(",") ? value.split(",").pop() || "" : value);
+    };
+    reader.onerror = () => reject(reader.error || new Error("文件读取失败。"));
+    reader.readAsDataURL(file);
+  });
 }
 
 function HomeworkAnalysisPanel({ analysis, onChange }: { analysis: any; onChange: (analysis: any) => void }) {

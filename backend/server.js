@@ -10,7 +10,7 @@ import { getLlmThrottleStatus } from './llmThrottle.js';
 import { analyzeHomework } from './analysis/homeworkAnalysis.js';
 import { assembleUserModules } from './adapters/userClient.js';
 import { TYPE_TO_MODULE } from './questionTypes.js';
-import { listCustomMaterials, saveCustomMaterial } from './knowledge/customMaterials.js';
+import { listCustomMaterials, saveCustomMaterial, saveCustomMaterialFromPdf } from './knowledge/customMaterials.js';
 import { generatePracticeService } from './services/generatePracticeService.js';
 import { AnalysisRequiredError, QualityGateError, isInfrastructureError } from './errors.js';
 import { regenerateQuestion } from './renderers/typedRenderer.js';
@@ -21,7 +21,7 @@ const frontendDistDir = join(__dirname, '../frontend/dist');
 let latestPractice = null;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '80mb' }));
 
 app.use((error, req, res, next) => {
   if (error instanceof SyntaxError && 'body' in error) {
@@ -64,8 +64,31 @@ app.get('/api/materials', (req, res) => {
 });
 
 app.post('/api/materials/upload', (req, res) => {
-  const { label, aliases = [], filename = 'material.md', content = '' } = req.body || {};
+  const {
+    label,
+    aliases = [],
+    filename = 'material.md',
+    content = '',
+    content_type = '',
+    pdf_base64 = '',
+  } = req.body || {};
   try {
+    const isPdf = pdf_base64 || /\.pdf$/i.test(filename) || /application\/pdf/i.test(content_type);
+    if (isPdf) {
+      const { material, conversion } = saveCustomMaterialFromPdf({ label, aliases, filename, pdfBase64: pdf_base64 || content });
+      return res.json({
+        status: 'uploaded',
+        material,
+        conversion: {
+          source_type: 'pdf',
+          page_count: conversion.pageCount,
+          rendered_images: conversion.renderedImages,
+          markdown_dir: conversion.pagesDir,
+          index_path: conversion.indexPath,
+        },
+        materials: listCustomMaterials(),
+      });
+    }
     const material = saveCustomMaterial({ label, aliases, filename, content });
     return res.json({ status: 'uploaded', material, materials: listCustomMaterials() });
   } catch (error) {
