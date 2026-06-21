@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English Review Generator</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <h1>English Review Generator</h1>
+          <p id="serviceStatus">Checking service...</p>
+        </div>
+        <div class="status-pill" id="modePill">Ready</div>
+      </header>
+
+      <section class="input-panel">
+        <label for="reviewInput">Review requirements</label>
+        <textarea id="reviewInput" spellcheck="false">Unit 3: hen, pen, red
+Practice listening, spelling, reading aloud, and simple sentences.</textarea>
+        <div class="controls">
+          <label>
+            Level
+            <select id="difficulty">
+              <option value="level_1" selected>Level 1</option>
+              <option value="level_2">Level 2</option>
+            </select>
+          </label>
+          <label>
+            Minutes
+            <input id="minutes" type="number" min="3" max="60" value="5">
+          </label>
+          <button id="mockBtn" type="button">Quick Demo</button>
+          <button id="analyzeBtn" type="button">Analyze Homework</button>
+          <button id="realBtn" type="button" disabled>Confirm And Generate</button>
+        </div>
+      </section>
+
+      <section id="analysisPanel" class="analysis-panel hidden" aria-label="Homework analysis"></section>
+
+      <section class="summary-grid" aria-live="polite">
+        <div>
+          <span>Modules</span>
+          <strong id="moduleCount">0</strong>
+        </div>
+        <div>
+          <span>Questions</span>
+          <strong id="questionCount">0</strong>
+        </div>
+        <div>
+          <span>Type coverage</span>
+          <strong id="typeCoverage">0/11</strong>
+        </div>
+        <div>
+          <span>Elapsed</span>
+          <strong id="elapsedTime">-</strong>
+        </div>
+      </section>
+
+      <div id="message" class="message" role="status"></div>
+      <section id="modules" class="modules" aria-label="Generated modules"></section>
+      <section id="practice" class="practice hidden" aria-label="Practice view"></section>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

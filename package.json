@@ -1,0 +1,35 @@
+{
+  "name": "english-review-app",
+  "version": "1.0.0",
+  "description": "Kids English review app with confirmed homework analysis and 11 question types",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node start-user-app.js",
+    "dev:backend": "node --watch backend/server.js",
+    "dev:frontend": "npm --prefix frontend run dev -- --host 127.0.0.1",
+    "build": "npm --prefix frontend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "install:frontend": "npm --prefix frontend install",
+    "knowledge:build": "node scripts/build_opw2_knowledge.js",
+    "knowledge:build:vision": "node scripts/build_bigfun2_vision_knowledge.js",
+    "test": "node --test test_*.test.js",
+    "acceptance": "node test_acceptance.js",
+    "acceptance:real": "node test_acceptance.js --real",
+    "acceptance:full": "node test_acceptance.js --real --full",
+    "progressive": "node test_progressive_case.js",
+    "progressive:full": "node test_progressive_case.js --full",
+    "quality:gate": "node test_quality_gate.js",
+    "generation:loop": "node test_generation_loop.js --loops=5",
+    "generation:loop:real": "node test_generation_loop.js --real --loops=5"
+  },
+  "keywords": ["english", "kids", "education", "ai", "phonics"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+.DS_Store
+output/
+*.tmp
+frontend/dist/
+.npm-cache/
+.ai/generated/
+reports/
+debug_stage1_response.txt
+auto-fix-log.json

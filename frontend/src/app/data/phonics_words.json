@@ -1,0 +1,602 @@
+{
+  "_comment": "Oxford Phonics World 标准词族库 — 按级别组织",
+  "_word_families": {
+    "_comment": "每个词族：key=族名, value={phoneme:'音素', words:[{word:'单词', translation:'中文'}]}"
+  },
+
+  "levels": {
+    "level_1": {
+      "label": "Level 1 — 26个字母音 + 基础CVC",
+      "description": "Oxford Phonics World Book 1 (对应自拼课Week1-26)",
+      "families": {
+        "a": {
+          "phoneme": "/æ/ a",
+          "words": [
+            {"word": "at", "translation": "在..."},
+            {"word": "cat", "translation": "猫"},
+            {"word": "hat", "translation": "帽子"},
+            {"word": "mat", "translation": "垫子"},
+            {"word": "rat", "translation": "老鼠"},
+            {"word": "bat", "translation": "蝙蝠"},
+            {"word": "fat", "translation": "胖的"},
+            {"word": "pan", "translation": "平底锅"},
+            {"word": "can", "translation": "能/罐子"},
+            {"word": "fan", "translation": "风扇"},
+            {"word": "man", "translation": "男人"},
+            {"word": "map", "translation": "地图"},
+            {"word": "cap", "translation": "帽子"},
+            {"word": "tap", "translation": "水龙头"},
+            {"word": "sap", "translation": "树液"},
+            {"word": "nap", "translation": "小睡"},
+            {"word": "bag", "translation": "包"},
+            {"word": "tag", "translation": "标签"},
+            {"word": "rag", "translation": "破布"},
+            {"word": "gag", "translation": "堵嘴"},
+            {"word": "dad", "translation": "爸爸"},
+            {"word": "mom", "translation": "妈妈"},
+            {"word": "am", "translation": "是"},
+            {"word": "Sam", "translation": "山姆（人名）"},
+            {"word": "jam", "translation": "果酱"},
+            {"word": "yam", "translation": "山药"},
+            {"word": "ham", "translation": "火腿"},
+            {"word": "cab", "translation": "出租车"},
+            {"word": "lab", "translation": "实验室"},
+            {"word": "stab", "translation": "刺"},
+            {"word": "back", "translation": "背/回来"},
+            {"word": "pack", "translation": "打包"},
+            {"word": "rack", "translation": "架子"},
+            {"word": "sack", "translation": "麻袋"},
+            {"word": "lack", "translation": "缺乏"}
+          ]
+        },
+        "e": {
+          "phoneme": "/e/ e",
+          "words": [
+            {"word": "pen", "translation": "笔"},
+            {"word": "hen", "translation": "母鸡"},
+            {"word": "ten", "translation": "十"},
+            {"word": "men", "translation": "男人们"},
+            {"word": "den", "translation": "兽穴"},
+            {"word": "Ben", "translation": "本（人名）"},
+            {"word": "Ben", "translation": "本（人名）"},
+            {"word": "Ken", "translation": "肯（人名）"},
+            {"word": "jet", "translation": "喷气机"},
+            {"word": "net", "translation": "网"},
+            {"word": "pet", "translation": "宠物"},
+            {"word": "wet", "translation": "湿的"},
+            {"word": "let", "translation": "让"},
+            {"word": "set", "translation": "设置"},
+            {"word": "get", "translation": "得到"},
+            {"word": "bed", "translation": "床"},
+            {"word": "red", "translation": "红色"},
+            {"word": "led", "translation": "领导"},
+            {"word": "fed", "translation": "喂养"},
+            {"word": "wed", "translation": "结婚"},
+            {"word": "leg", "translation": "腿"},
+            {"word": "peg", "translation": "衣夹"},
+            {"word": "egg", "translation": "蛋"},
+            {"word": "bell", "translation": "铃铛"},
+            {"word": "well", "translation": "井/好的"},
+            {"word": "sell", "translation": "卖"},
+            {"word": "tell", "translation": "告诉"},
+            {"word": "best", "translation": "最好的"},
+            {"word": "rest", "translation": "休息"},
+            {"word": "nest", "translation": "鸟窝"}
+          ]
+        },
+        "i": {
+          "phoneme": "/ɪ/ i",
+          "words": [
+            {"word": "it", "translation": "它"},
+            {"word": "sit", "translation": "坐"},
+            {"word": "hit", "translation": "打"},
+            {"word": "bit", "translation": "一点"},
+            {"word": "fit", "translation": "适合"},
+            {"word": "kit", "translation": "工具包"},
+            {"word": "pit", "translation": "坑"},
+            {"word": "win", "translation": "赢"},
+            {"word": "pin", "translation": "别针"},
+            {"word": "fin", "translation": "鱼鳍"},
+            {"word": "bin", "translation": "垃圾桶"},
+            {"word": "kid", "translation": "小孩"},
+            {"word": "did", "translation": "做了"},
+            {"word": "hid", "translation": "藏起来"},
+            {"word": "lid", "translation": "盖子"},
+            {"word": "bid", "translation": "出价"},
+            {"word": "rid", "translation": "摆脱"},
+            {"word": "dig", "translation": "挖"},
+            {"word": "big", "translation": "大的"},
+            {"word": "pig", "translation": "猪"},
+            {"word": "wig", "translation": "假发"},
+            {"word": "fig", "translation": "无花果"},
+            {"word": "hip", "translation": "屁股"},
+            {"word": "lip", "translation": "嘴唇"},
+            {"word": "tip", "translation": "尖端"},
+            {"word": "sip", "translation": "小口喝"},
+            {"word": "dip", "translation": "蘸"},
+            {"word": "rip", "translation": "撕开"},
+            {"word": "nip", "translation": "捏"},
+            {"word": "zip", "translation": "拉链"},
+            {"word": "dip", "translation": "蘸"},
+            {"word": "bib", "translation": "围嘴"},
+            {"word": "fib", "translation": "小谎"},
+            {"word": "rib", "translation": "肋骨"},
+            {"word": "sick", "translation": "生病"},
+            {"word": "kick", "translation": "踢"},
+            {"word": "pick", "translation": "捡"},
+            {"word": "tick", "translation": "打钩"},
+            {"word": "lick", "translation": "舔"},
+            {"word": "quick", "translation": "快的"}
+          ]
+        },
+        "o": {
+          "phoneme": "/ɒ/ o",
+          "words": [
+            {"word": "on", "translation": "在...上"},
+            {"word": "hot", "translation": "热的"},
+            {"word": "pot", "translation": "锅"},
+            {"word": "dot", "translation": "点"},
+            {"word": "got", "translation": "得到"},
+            {"word": "not", "translation": "不"},
+            {"word": "lot", "translation": "许多"},
+            {"word": "rot", "translation": "腐烂"},
+            {"word": "fox", "translation": "狐狸"},
+            {"word": "box", "translation": "盒子"},
+            {"word": "hop", "translation": "跳"},
+            {"word": "pop", "translation": "流行/砰"},
+            {"word": "top", "translation": "顶部"},
+            {"word": "mop", "translation": "拖把"},
+            {"word": "cop", "translation": "警察"},
+            {"word": "dog", "translation": "狗"},
+            {"word": "log", "translation": "木头"},
+            {"word": "jog", "translation": "慢跑"},
+            {"word": "frog", "translation": "青蛙"},
+            {"word": "bug", "translation": "虫子"},
+            {"word": "hug", "translation": "拥抱"},
+            {"word": "mud", "translation": "泥巴"},
+            {"word": "cup", "translation": "杯子"},
+            {"word": "cut", "translation": "切"},
+            {"word": "run", "translation": "跑"},
+            {"word": "sun", "translation": "太阳"},
+            {"word": "fun", "translation": "有趣"},
+            {"word": "bus", "translation": "公共汽车"}
+          ]
+        },
+        "u": {
+          "phoneme": "/ʌ/ u",
+          "words": [
+            {"word": "up", "translation": "向上"},
+            {"word": "cup", "translation": "杯子"},
+            {"word": "cut", "translation": "切"},
+            {"word": "fun", "translation": "有趣"},
+            {"word": "run", "translation": "跑"},
+            {"word": "sun", "translation": "太阳"},
+            {"word": "bus", "translation": "公共汽车"},
+            {"word": "mug", "translation": "马克杯"},
+            {"word": "hug", "translation": "拥抱"},
+            {"word": "rug", "translation": "地毯"},
+            {"word": "bug", "translation": "虫子"},
+            {"word": "dug", "translation": "挖（过去式）"},
+            {"word": "mud", "translation": "泥巴"},
+            {"word": "pup", "translation": "小狗"},
+            {"word": "gum", "translation": "口香糖"},
+            {"word": "rum", "translation": "朗姆酒"},
+            {"word": "hum", "translation": "哼唱"},
+            {"word": "sum", "translation": "总数"},
+            {"word": "tub", "translation": "浴缸"},
+            {"word": "rub", "translation": "摩擦"},
+            {"word": "sub", "translation": "替代"},
+            {"word": "dub", "translation": "配音"}
+          ]
+        },
+        "ck": {
+          "phoneme": "/k/ ck",
+          "words": [
+            {"word": "back", "translation": "背"},
+            {"word": "neck", "translation": "脖子"},
+            {"word": "deck", "translation": "甲板"},
+            {"word": "peck", "translation": "啄"},
+            {"word": "check", "translation": "检查"},
+            {"word": "duck", "translation": "鸭子"},
+            {"word": "luck", "translation": "运气"},
+            {"word": "sock", "translation": "袜子"},
+            {"word": "rock", "translation": "岩石"},
+            {"word": "lock", "translation": "锁"},
+            {"word": "clock", "translation": "时钟"},
+            {"word": "pick", "translation": "捡"},
+            {"word": "tick", "translation": "打钩"},
+            {"word": "lick", "translation": "舔"},
+            {"word": "kick", "translation": "踢"},
+            {"word": "sick", "translation": "生病"}
+          ]
+        }
+      }
+    },
+
+    "level_2": {
+      "label": "Level 2 — 混合辅音 + 长元音基础",
+      "description": "Oxford Phonics World Book 2 (对应自拼课Week27-52)",
+      "families": {
+        "en_ed": {
+          "phoneme": "/en/ /ed/ en, ed 音",
+          "words": [
+            {"word": "hen", "translation": "母鸡"},
+            {"word": "pen", "translation": "笔"},
+            {"word": "ten", "translation": "十"},
+            {"word": "den", "translation": "兽穴"},
+            {"word": "men", "translation": "男人们"},
+            {"word": "Ben", "translation": "本（人名）"},
+            {"word": "Ken", "translation": "肯（人名）"},
+            {"word": "when", "translation": "什么时候"},
+            {"word": "then", "translation": "然后"},
+            {"word": "send", "translation": "发送"},
+            {"word": "lend", "translation": "借出"},
+            {"word": "mend", "translation": "修理"},
+            {"word": "bend", "translation": "弯曲"},
+            {"word": "tend", "translation": "倾向于"},
+            {"word": "end", "translation": "结束"},
+            {"word": "spend", "translation": "花费"},
+            {"word": "blend", "translation": "混合"},
+            {"word": "red", "translation": "红色"},
+            {"word": "bed", "translation": "床"},
+            {"word": "led", "translation": "领导（过去式）"},
+            {"word": "fed", "translation": "喂养（过去式）"},
+            {"word": "wed", "translation": "结婚（过去式）"},
+            {"word": "shed", "translation": "小屋"},
+            {"word": "fled", "translation": "逃走（过去式）"},
+            {"word": "sled", "translation": "雪橇"},
+            {"word": "sped", "translation": "加速（过去式）"},
+            {"word": "bred", "translation": "繁殖（过去式）"}
+          ]
+        },
+        "ip_ib_id": {
+          "phoneme": "/ɪp/ /ɪb/ /ɪd/ ip, ib, id 音",
+          "words": [
+            {"word": "hip", "translation": "屁股"},
+            {"word": "lip", "translation": "嘴唇"},
+            {"word": "tip", "translation": "尖端"},
+            {"word": "sip", "translation": "小口喝"},
+            {"word": "dip", "translation": "蘸"},
+            {"word": "rip", "translation": "撕开"},
+            {"word": "nip", "translation": "捏"},
+            {"word": "zip", "translation": "拉链"},
+            {"word": "pip", "translation": "果核"},
+            {"word": "chip", "translation": "薯片"},
+            {"word": "ship", "translation": "船"},
+            {"word": "skip", "translation": "跳绳"},
+            {"word": "flip", "translation": "翻"},
+            {"word": "slip", "translation": "滑倒"},
+            {"word": "grip", "translation": "抓住"},
+            {"word": "drip", "translation": "滴落"},
+            {"word": "trip", "translation": "旅行"},
+            {"word": "drip", "translation": "滴落"},
+            {"word": "bib", "translation": "围嘴"},
+            {"word": "fib", "translation": "小谎"},
+            {"word": "rib", "translation": "肋骨"},
+            {"word": "nib", "translation": "笔尖"},
+            {"word": "kid", "translation": "小孩"},
+            {"word": "lid", "translation": "盖子"},
+            {"word": "bid", "translation": "出价"},
+            {"word": "did", "translation": "做了"},
+            {"word": "hid", "translation": "藏起来（过去式）"},
+            {"word": "rid", "translation": "摆脱"},
+            {"word": "skid", "translation": "打滑"},
+            {"word": "slid", "translation": "滑（过去式）"},
+            {"word": "grid", "translation": "网格"}
+          ]
+        },
+        "sh_ch": {
+          "phoneme": "/ʃ/ /tʃ/ sh, ch",
+          "words": [
+            {"word": "ship", "translation": "船"},
+            {"word": "fish", "translation": "鱼"},
+            {"word": "dish", "translation": "盘子"},
+            {"word": "wish", "translation": "希望"},
+            {"word": "wash", "translation": "洗"},
+            {"word": "push", "translation": "推"},
+            {"word": "hush", "translation": "安静"},
+            {"word": "cash", "translation": "现金"},
+            {"word": "shed", "translation": "小屋"},
+            {"word": "shell", "translation": "贝壳"},
+            {"word": "sheep", "translation": "绵羊"},
+            {"word": "sheet", "translation": "床单"},
+            {"word": "chin", "translation": "下巴"},
+            {"word": "chip", "translation": "薯片"},
+            {"word": "chat", "translation": "聊天"},
+            {"word": "chop", "translation": "砍"},
+            {"word": "bench", "translation": "长凳"},
+            {"word": "lunch", "translation": "午餐"},
+            {"word": "bench", "translation": "长凳"}
+          ]
+        },
+        "th_wh": {
+          "phoneme": "/ð/ /θ/ /w/ /h/ th, wh",
+          "words": [
+            {"word": "the", "translation": "这（定冠词）"},
+            {"word": "this", "translation": "这个"},
+            {"word": "that", "translation": "那个"},
+            {"word": "them", "translation": "他们（宾格）"},
+            {"word": "then", "translation": "然后"},
+            {"word": "there", "translation": "那里"},
+            {"word": "with", "translation": "和/用"},
+            {"word": "bath", "translation": "洗澡"},
+            {"word": "path", "translation": "小路"},
+            {"word": "think", "translation": "想"},
+            {"word": "thank", "translation": "谢谢"},
+            {"word": "thick", "translation": "厚的"},
+            {"word": "thin", "translation": "薄的"},
+            {"word": "three", "translation": "三"},
+            {"word": "three", "translation": "三"},
+            {"word": "what", "translation": "什么"},
+            {"word": "when", "translation": "什么时候"},
+            {"word": "where", "translation": "在哪里"},
+            {"word": "why", "translation": "为什么"},
+            {"word": "which", "translation": "哪个"},
+            {"word": "whale", "translation": "鲸鱼"},
+            {"word": "wheel", "translation": "轮子"},
+            {"word": "white", "translation": "白色"},
+            {"word": "whip", "translation": "鞭子"}
+          ]
+        },
+        "ng_ng": {
+          "phoneme": "/ŋ/ ng",
+          "words": [
+            {"word": "ring", "translation": "戒指"},
+            {"word": "sing", "translation": "唱歌"},
+            {"word": "king", "translation": "国王"},
+            {"word": "wing", "translation": "翅膀"},
+            {"word": "thing", "translation": "东西"},
+            {"word": "ping", "translation": "砰（声音）"},
+            {"word": "ding", "translation": "叮（声音）"},
+            {"word": "long", "translation": "长的"},
+            {"word": "song", "translation": "歌曲"},
+            {"word": "strong", "translation": "强壮的"},
+            {"word": "young", "translation": "年轻的"},
+            {"word": "pink", "translation": "粉色"},
+            {"word": "ink", "translation": "墨水"},
+            {"word": "link", "translation": "链接"},
+            {"word": "sink", "translation": "水槽"},
+            {"word": "bank", "translation": "银行"},
+            {"word": "thank", "translation": "谢谢"},
+            {"word": "drink", "translation": "喝"}
+          ]
+        },
+        "ai_ay": {
+          "phoneme": "/eɪ/ ai, ay",
+          "words": [
+            {"word": "rain", "translation": "雨"},
+            {"word": "tail", "translation": "尾巴"},
+            {"word": "mail", "translation": "邮件"},
+            {"word": "sail", "translation": "航行"},
+            {"word": "nail", "translation": "钉子"},
+            {"word": "pain", "translation": "疼痛"},
+            {"word": "gain", "translation": "获得"},
+            {"word": "main", "translation": "主要的"},
+            {"word": "day", "translation": "天"},
+            {"word": "way", "translation": "路/方式"},
+            {"word": "say", "translation": "说"},
+            {"word": "may", "translation": "可以"},
+            {"word": "play", "translation": "玩"},
+            {"word": "stay", "translation": "停留"},
+            {"word": "away", "translation": "离开"},
+            {"word": "today", "translation": "今天"},
+            {"word": "always", "translation": "总是"},
+            {"word": "okay", "translation": "好的"}
+          ]
+        },
+        "ee_ea": {
+          "phoneme": "/iː/ ee, ea",
+          "words": [
+            {"word": "see", "translation": "看见"},
+            {"word": "tree", "translation": "树"},
+            {"word": "three", "translation": "三"},
+            {"word": "free", "translation": "自由的"},
+            {"word": "green", "translation": "绿色"},
+            {"word": "sheep", "translation": "绵羊"},
+            {"word": "sleep", "translation": "睡觉"},
+            {"word": "street", "translation": "街道"},
+            {"word": "feet", "translation": "脚"},
+            {"word": "meet", "translation": "遇见"},
+            {"word": "beach", "translation": "海滩"},
+            {"word": "team", "translation": "团队"},
+            {"word": "read", "translation": "读"},
+            {"word": "eat", "translation": "吃"},
+            {"word": "meat", "translation": "肉"},
+            {"word": "seat", "translation": "座位"},
+            {"word": "heat", "translation": "热"},
+            {"word": "meal", "translation": "一餐"},
+            {"word": "leaf", "translation": "叶子"},
+            {"word": "team", "translation": "团队"}
+          ]
+        },
+        "oa_ow": {
+          "phoneme": "/əʊ/ oa, ow",
+          "words": [
+            {"word": "boat", "translation": "船"},
+            {"word": "coat", "translation": "外套"},
+            {"word": "road", "translation": "路"},
+            {"word": "soap", "translation": "肥皂"},
+            {"word": "toast", "translation": "吐司"},
+            {"word": "float", "translation": "漂浮"},
+            {"word": "show", "translation": "显示"},
+            {"word": "know", "translation": "知道"},
+            {"word": "snow", "translation": "雪"},
+            {"word": "grow", "translation": "生长"},
+            {"word": "flow", "translation": "流动"},
+            {"word": "blow", "translation": "吹"},
+            {"word": "slow", "translation": "慢的"},
+            {"word": "window", "translation": "窗户"},
+            {"word": "follow", "translation": "跟随"},
+            {"word": "yellow", "translation": "黄色"},
+            {"word": "rainbow", "translation": "彩虹"}
+          ]
+        },
+        "oo_ew": {
+          "phoneme": "/uː/ oo, ew",
+          "words": [
+            {"word": "moon", "translation": "月亮"},
+            {"word": "room", "translation": "房间"},
+            {"word": "zoo", "translation": "动物园"},
+            {"word": "food", "translation": "食物"},
+            {"word": "book", "translation": "书"},
+            {"word": "look", "translation": "看"},
+            {"word": "good", "translation": "好的"},
+            {"word": "foot", "translation": "脚"},
+            {"word": "cook", "translation": "厨师"},
+            {"word": "wood", "translation": "木头"},
+            {"word": "new", "translation": "新的"},
+            {"word": "knew", "translation": "知道（过去式）"},
+            {"word": "drew", "translation": "画（过去式）"},
+            {"word": "grew", "translation": "生长（过去式）"},
+            {"word": "flew", "translation": "飞（过去式）"}
+          ]
+        },
+        "ai_e": {
+          "phoneme": "/aɪ/ i_e (magic e)",
+          "words": [
+            {"word": "like", "translation": "喜欢"},
+            {"word": "time", "translation": "时间"},
+            {"word": "bike", "translation": "自行车"},
+            {"word": "like", "translation": "喜欢"},
+            {"word": "hide", "translation": "躲藏"},
+            {"word": "side", "translation": "边"},
+            {"word": "fine", "translation": "好的/细的"},
+            {"word": "line", "translation": "线"},
+            {"word": "nine", "translation": "九"},
+            {"word": "five", "translation": "五"},
+            {"word": "hive", "translation": "蜂巢"},
+            {"word": "drive", "translation": "驾驶"},
+            {"word": "prize", "translation": "奖品"},
+            {"word": "size", "translation": "尺寸"}
+          ]
+        },
+        "oa_o_e": {
+          "phoneme": "/əʊ/ o_e (magic e)",
+          "words": [
+            {"word": "home", "translation": "家"},
+            {"word": "hope", "translation": "希望"},
+            {"word": "phone", "translation": "电话"},
+            {"word": "hole", "translation": "洞"},
+            {"word": "bone", "translation": "骨头"},
+            {"word": "stone", "translation": "石头"},
+            {"word": "nose", "translation": "鼻子"},
+            {"word": "rose", "translation": "玫瑰"},
+            {"word": "note", "translation": "笔记"},
+            {"word": "vote", "translation": "投票"},
+            {"word": "coke", "translation": "可乐"},
+            {"word": "pole", "translation": "杆子"},
+            {"word": "role", "translation": "角色"}
+          ]
+        },
+        "ee_e_e": {
+          "phoneme": "/iː/ e_e (magic e)",
+          "words": [
+            {"word": "these", "translation": "这些"},
+            {"word": "these", "translation": "这些"},
+            {"word": "theme", "translation": "主题"},
+            {"word": "Chinese", "translation": "中国人/中文"},
+            {"word": "complete", "translation": "完成"},
+            {"word": "athlete", "translation": "运动员"}
+          ]
+        }
+      }
+    },
+
+    "level_3": {
+      "label": "Level 3 — 进阶拼读规则",
+      "description": "Oxford Phonics World Book 3 (对应自拼课Week53+)",
+      "families": {
+        "tion": {
+          "phoneme": "/ʃən/ tion",
+          "words": [
+            {"word": "station", "translation": "车站"},
+            {"word": "action", "translation": "行动"},
+            {"word": "fraction", "translation": "分数"},
+            {"word": " invention", "translation": "发明"}
+          ]
+        },
+        "sion": {
+          "phoneme": "/ʒən/ sion",
+          "words": [
+            {"word": "vision", "translation": "视力"},
+            {"word": "television", "translation": "电视"},
+            {"word": "division", "translation": "除法"},
+            {"word": "explosion", "translation": "爆炸"}
+          ]
+        },
+        "ous": {
+          "phoneme": "/əs/ ous",
+          "words": [
+            {"word": "dangerous", "translation": "危险的"},
+            {"word": "delicious", "translation": "美味的"},
+            {"word": "famous", "translation": "著名的"}
+          ]
+        },
+        "are": {
+          "phoneme": "/eə/ are",
+          "words": [
+            {"word": "share", "translation": "分享"},
+            {"word": "care", "translation": "关心"},
+            {"word": "dare", "translation": "敢"},
+            {"word": "fare", "translation": "费用"},
+            {"word": "rare", "translation": "罕见的"}
+          ]
+        },
+        "ere": {
+          "phoneme": "/eə/ ere",
+          "words": [
+            {"word": "where", "translation": "在哪里"},
+            {"word": "there", "translation": "那里"},
+            {"word": "here", "translation": "这里"},
+            {"word": "were", "translation": "是（过去式复数）"}
+          ]
+        },
+        "ire": {
+          "phoneme": "/aɪə/ ire",
+          "words": [
+            {"word": "fire", "translation": "火"},
+            {"word": "hire", "translation": "雇佣"},
+            {"word": "tire", "translation": "累"},
+            {"word": "wire", "translation": "电线"}
+          ]
+        },
+        "ure": {
+          "phoneme": "/jʊə/ ure",
+          "words": [
+            {"word": "sure", "translation": "确定"},
+            {"word": "pure", "translation": "纯净的"},
+            {"word": "cure", "translation": "治愈"},
+            {"word": "future", "translation": "未来"}
+          ]
+        },
+        "ear": {
+          "phoneme": "/ɪə/ /eə/ /ɜː/ ear",
+          "words": [
+            {"word": "hear", "translation": "听见"},
+            {"word": "dear", "translation": "亲爱的"},
+            {"word": "near", "translation": "近"},
+            {"word": "year", "translation": "年"},
+            {"word": "tear", "translation": "眼泪"},
+            {"word": "pear", "translation": "梨"},
+            {"word": "bear", "translation": "熊"},
+            {"word": "wear", "translation": "穿"}
+          ]
+        },
+        "air": {
+          "phoneme": "/eə/ air",
+          "words": [
+            {"word": "hair", "translation": "头发"},
+            {"word": "chair", "translation": "椅子"},
+            {"word": "pair", "translation": "一对"},
+            {"word": "fair", "translation": "公平"},
+            {"word": "stair", "translation": "楼梯"}
+          ]
+        }
+      }
+    }
+  },
+
+  "_flat_list": {
+    "_comment": "扁平词表，供 LLM 直接遍历使用。格式：{word, translation, level, family}"
+  }
+}
