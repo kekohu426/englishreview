@@ -112,10 +112,55 @@ function extractPdfPages(pdfPath, imageDir) {
     throw new Error((result.stderr || result.stdout || 'PDF extraction failed').trim());
   }
   try {
-    return JSON.parse(result.stdout);
+    return applyOcrFallback(JSON.parse(result.stdout));
   } catch {
     throw new Error('PDF extraction returned invalid JSON.');
   }
+}
+
+function applyOcrFallback(extraction) {
+  const pages = Array.isArray(extraction?.pages) ? extraction.pages : [];
+  const candidates = pages
+    .filter(page => !String(page.text || '').trim() && page.image_path)
+    .map(page => ({ page: page.page, image_path: page.image_path }));
+  if (!candidates.length) return extraction;
+
+  try {
+    const ocrPages = runWindowsOcr(candidates);
+    const byPage = new Map(ocrPages.map(page => [Number(page.page), String(page.text || '').trim()]));
+    let count = 0;
+    extraction.pages = pages.map(page => {
+      const text = byPage.get(Number(page.page));
+      if (!text) return page;
+      count += 1;
+      return { ...page, text };
+    });
+    extraction.ocr_pages = count;
+  } catch (error) {
+    extraction.errors = [...(extraction.errors || []), `windows_ocr: ${error.message}`];
+  }
+  return extraction;
+}
+
+function runWindowsOcr(candidates) {
+  const inputPath = path.join(os.tmpdir(), `english_review_ocr_input_${Date.now()}.json`);
+  const scriptPath = path.join(os.tmpdir(), `english_review_windows_ocr_${Date.now()}.ps1`);
+  fs.writeFileSync(inputPath, JSON.stringify(candidates), 'utf8');
+  fs.writeFileSync(scriptPath, POWERSHELL_OCR_SCRIPT, 'utf8');
+  const result = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', scriptPath, inputPath], {
+    encoding: 'utf8',
+    maxBuffer: 50 * 1024 * 1024,
+  });
+  [inputPath, scriptPath].forEach(file => {
+    try {
+      fs.unlinkSync(file);
+    } catch {
+      // Ignore temp cleanup failures.
+    }
+  });
+  if (result.error) throw result.error;
+  if (result.status !== 0) throw new Error((result.stderr || result.stdout || 'Windows OCR failed').trim());
+  return JSON.parse(result.stdout || '[]');
 }
 
 function normalizeExtractedPages(pages) {
@@ -315,4 +360,46 @@ print(json.dumps({
     "rendered_images": rendered,
     "errors": errors,
 }, ensure_ascii=False))
+`;
+
+const POWERSHELL_OCR_SCRIPT = String.raw`
+param([string]$InputJson)
+$ErrorActionPreference = "Stop"
+Add-Type -AssemblyName System.Runtime.WindowsRuntime
+[Windows.Media.Ocr.OcrEngine, Windows.Foundation, ContentType = WindowsRuntime] | Out-Null
+[Windows.Globalization.Language, Windows.Foundation, ContentType = WindowsRuntime] | Out-Null
+[Windows.Graphics.Imaging.BitmapDecoder, Windows.Graphics.Imaging, ContentType = WindowsRuntime] | Out-Null
+[Windows.Storage.StorageFile, Windows.Storage, ContentType = WindowsRuntime] | Out-Null
+
+function Await-WinRt($AsyncOp, [Type]$ResultType) {
+  $asTask = ([System.WindowsRuntimeSystemExtensions].GetMethods() |
+    Where-Object { $_.Name -eq "AsTask" -and $_.GetParameters().Count -eq 1 -and $_.GetGenericArguments().Count -eq 1 } |
+    Select-Object -First 1).MakeGenericMethod($ResultType)
+  $task = $asTask.Invoke($null, @($AsyncOp))
+  $task.Wait()
+  return $task.Result
+}
+
+function Get-OcrText([string]$ImagePath) {
+  $file = Await-WinRt ([Windows.Storage.StorageFile]::GetFileFromPathAsync($ImagePath)) ([Windows.Storage.StorageFile])
+  $stream = Await-WinRt ($file.OpenReadAsync()) ([Windows.Storage.Streams.IRandomAccessStreamWithContentType])
+  $decoder = Await-WinRt ([Windows.Graphics.Imaging.BitmapDecoder]::CreateAsync($stream)) ([Windows.Graphics.Imaging.BitmapDecoder])
+  $bitmap = Await-WinRt ($decoder.GetSoftwareBitmapAsync()) ([Windows.Graphics.Imaging.SoftwareBitmap])
+  $engine = [Windows.Media.Ocr.OcrEngine]::TryCreateFromLanguage([Windows.Globalization.Language]::new("en-US"))
+  if ($null -eq $engine) { $engine = [Windows.Media.Ocr.OcrEngine]::TryCreateFromUserProfileLanguages() }
+  if ($null -eq $engine) { throw "Windows OCR engine is unavailable." }
+  $result = Await-WinRt ($engine.RecognizeAsync($bitmap)) ([Windows.Media.Ocr.OcrResult])
+  return $result.Text
+}
+
+$items = Get-Content -LiteralPath $InputJson -Raw | ConvertFrom-Json
+$out = New-Object System.Collections.Generic.List[object]
+foreach ($item in $items) {
+  try {
+    $out.Add([pscustomobject]@{ page = [int]$item.page; text = (Get-OcrText ([string]$item.image_path)) })
+  } catch {
+    $out.Add([pscustomobject]@{ page = [int]$item.page; text = "" })
+  }
+}
+$out | ConvertTo-Json -Depth 4 -Compress
 `;
