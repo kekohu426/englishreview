@@ -6,6 +6,7 @@ output/
 *.tmp
 frontend/dist/
 .npm-cache/
+.ai/
 .ai/generated/
 reports/
 debug_stage1_response.txt
