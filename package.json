@@ -9,6 +9,7 @@
     "dev": "node start-user-app.js",
     "dev:backend": "node --watch backend/server.js",
     "dev:frontend": "npm --prefix frontend run dev -- --host 127.0.0.1",
+    "postinstall": "npm --prefix frontend install",
     "build": "npm --prefix frontend run build",
     "build:frontend": "npm --prefix frontend run build",
     "install:frontend": "npm --prefix frontend install",

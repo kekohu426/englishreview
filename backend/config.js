@@ -4,6 +4,7 @@ import { dirname, join } from 'path';
 import { REQUIRED_QUESTION_TYPES } from './questionTypes.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const bundledKnowledgeDir = join(__dirname, 'knowledge/data');
 loadDotEnv({ path: join(__dirname, '../.env') });
 
 function numberEnv(name, fallback) {
@@ -41,7 +42,7 @@ export default {
 
   server: {
     port: numberEnv('PORT', 5000),
-    host: process.env.HOST || '127.0.0.1',
+    host: process.env.HOST || '0.0.0.0',
   },
 
   features: {
@@ -49,11 +50,11 @@ export default {
   },
 
   opw2: {
-    path: process.env.OPW2_KB_PATH || 'D:/zhishiku/00_Inbox/bigfun2_textbook_md/bigfun2_program_knowledge.json',
+    path: process.env.OPW2_KB_PATH || join(bundledKnowledgeDir, 'bigfun2_program_knowledge.json'),
   },
 
   phonics: {
-    path: process.env.PHONICS_KB_PATH || 'D:/zhishiku/00_Inbox/\u7b11\u7b11\u82f1\u8bed/OPW2-\u6587\u5b57\u63d0\u53d6/opw2_program_knowledge.json',
+    path: process.env.PHONICS_KB_PATH || join(bundledKnowledgeDir, 'phonics_opw2_program_knowledge.json'),
   },
 
   questions: {
