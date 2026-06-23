@@ -21,9 +21,16 @@ const frontendDistDir = join(__dirname, '../frontend/dist');
 let latestPractice = null;
 
 app.use(cors());
-app.use(express.json({ limit: '80mb' }));
+app.use(express.json({ limit: '250mb' }));
 
 app.use((error, req, res, next) => {
+  if (error?.type === 'entity.too.large') {
+    return res.status(413).json({
+      error: '上传文件太大。请压缩 PDF 后再试，或拆成多个教材文件上传。',
+      code: 'UPLOAD_TOO_LARGE',
+      limit: '250mb',
+    });
+  }
   if (error instanceof SyntaxError && 'body' in error) {
     return res.status(400).json({ error: 'Invalid JSON request body' });
   }

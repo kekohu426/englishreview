@@ -462,7 +462,7 @@ function MaterialUploadPanel({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      const data = await resp.json();
+      const data = await readJsonResponse(resp);
       if (!resp.ok || data.error) throw new Error(data.error || `Upload failed: ${resp.status}`);
       const conversionText = data.conversion?.page_count ? `，已转换 ${data.conversion.page_count} 页` : "";
       onStatus(`已添加教材：${data.material.label}${conversionText}`);
@@ -517,6 +517,20 @@ function fileToBase64(file: File): Promise<string> {
     reader.onerror = () => reject(reader.error || new Error("文件读取失败。"));
     reader.readAsDataURL(file);
   });
+}
+
+async function readJsonResponse(resp: Response) {
+  const text = await resp.text();
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    const snippet = text.replace(/\s+/g, " ").slice(0, 120);
+    throw new Error(
+      resp.status === 413
+        ? "上传文件太大。请压缩 PDF 后再试，或拆成多个教材文件上传。"
+        : `上传接口返回异常（${resp.status}）：${snippet || "不是 JSON 响应"}`
+    );
+  }
 }
 
 function HomeworkAnalysisPanel({ analysis, onChange }: { analysis: any; onChange: (analysis: any) => void }) {
