@@ -1,4 +1,5 @@
 let voices: SpeechSynthesisVoice[] = [];
+let unlocked = false;
 
 export function initSpeech() {
   if (!("speechSynthesis" in window)) return;
@@ -7,6 +8,9 @@ export function initSpeech() {
   speechSynthesis.onvoiceschanged = load;
   setTimeout(load, 150);
   setTimeout(load, 900);
+  ["pointerdown", "touchstart", "keydown"].forEach((eventName) => {
+    window.addEventListener(eventName, unlockAudio, { once: true, passive: true });
+  });
 }
 
 function pickVoice(lang: string) {
@@ -21,16 +25,27 @@ function pickVoice(lang: string) {
 
 export function speak(text: string, lang = "en-US"): Promise<void> {
   return new Promise((resolve) => {
+    const content = String(text || "").trim();
+    if (!content) { resolve(); return; }
     if (!("speechSynthesis" in window)) { resolve(); return; }
+    unlockAudio();
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(content);
     u.lang = lang;
     u.rate = lang === "zh-CN" ? 0.92 : 0.78;
     u.pitch = 1.05;
     const voice = pickVoice(lang);
     if (voice) u.voice = voice;
-    u.onend = () => resolve();
-    u.onerror = () => resolve();
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      resolve();
+    };
+    const timeout = window.setTimeout(finish, Math.max(3500, content.length * 140));
+    u.onend = finish;
+    u.onerror = finish;
     // iOS/Chrome resume workaround
     [0, 100, 350].forEach((d) => setTimeout(() => { try { speechSynthesis.resume(); } catch {} }, d));
     speechSynthesis.speak(u);
@@ -48,6 +63,16 @@ function getAudioCtx() {
     if (Ctor) audioCtx = new Ctor();
   }
   return audioCtx;
+}
+
+function unlockAudio() {
+  if (unlocked) return;
+  unlocked = true;
+  try { speechSynthesis.resume(); } catch {}
+  const ctx = getAudioCtx();
+  if (ctx?.state === "suspended") {
+    ctx.resume().catch(() => {});
+  }
 }
 function tone(freq: number, dur: number, delay = 0, gain = 0.08) {
   const ctx = getAudioCtx();
